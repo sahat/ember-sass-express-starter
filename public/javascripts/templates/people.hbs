@@ -1,6 +1,6 @@
 <h3>People Template</h3>
 
-<table class="table">
+<table class="table table-bordered">
   <thead>
   <th>Name</th>
   <th>Age</th>
@@ -13,6 +13,10 @@
       <td>{{person.age}}</td>
       <td>{{#link-to "person" person }}View{{/link-to}}</td>
     </tr>
+  {{else}}
+  <tr>
+    <td colspan="3" class="warning">No content</td>
+  </tr>
   {{/each}}
   </tbody>
 </table>
