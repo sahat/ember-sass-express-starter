@@ -13,3 +13,14 @@ results
 
 npm-debug.log
 node_modules
+.idea
+*.iml
+.DS_Store
+Thumbs.db
+
+node_modules
+temp
+dist
+build
+test/bower_components
+app/bower_components
