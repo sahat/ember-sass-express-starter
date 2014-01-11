@@ -30,7 +30,7 @@
     "url": "git://github.com/sahat/generator-ember-sass-express.git"
   },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "node_modules/.bin/mocha test --reporter spec"
   },
   "dependencies": {
     "express": "~3.4.7",
@@ -38,7 +38,9 @@
     "node-sass": "~0.8.0"
   },
   "devDependencies": {
-    "mocha": "~1.17.0"
+    "mocha": "~1.17.0",
+    "chai": "~1.8.1",
+    "supertest": "~0.8.3"
   },
   "peerDependencies": {
     "yo": "~1.1.2"
