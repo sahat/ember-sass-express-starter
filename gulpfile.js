@@ -1,46 +1,39 @@
-// Gulp
 var gulp = require('gulp');
-
-// Stylesheets
+var watch = require('gulp-watch');
 var sass = require('gulp-sass');
 var prefix = require('gulp-autoprefixer');
 var minifycss = require('gulp-minify-css');
-
-// JavaScript
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
-
-// Images
 var svgmin = require('gulp-svgmin');
 var imagemin = require('gulp-imagemin');
-
-// Templates
 var handlebars = require('gulp-handlebars');
 
 gulp.task('sass', function() {
-  gulp.src('app/styles/*.scss')
-    .pipe(sass({ includePaths: ['app/styles'] }))
-    .pipe(gulp.dest('app/styles'))
+  gulp.src('app/stylesheets/*.scss')
+    //.pipe(watch())
+    .pipe(sass({ includePaths: ['app/stylesheets'] }))
+    .pipe(gulp.dest('app/stylesheets'))
 });
 
 gulp.task('templates', function(){
-  gulp.src(['app/templates/*.hbs'])
+  gulp.src(['app/javascripts/templates/*.hbs'])
+    //.pipe(watch())
     .pipe(handlebars({
       namespace: 'App.templates',
       outputType: 'hybrid'
     }))
     .pipe(concat('templates.js'))
-    .pipe(gulp.dest('build/js/'));
+    .pipe(gulp.dest('app/javascripts'));
 });
 
 //
-//gulp.task('scripts', function() {
-//  // Minify and copy all JavaScript (except vendor scripts)
-//  return gulp.src(['client/js/**/*.js', '!client/js/vendor/**'])
-//    .pipe(uglify())
-//    .pipe(gulp.dest('build/js'));
-//});
-//
+gulp.task('scripts', function() {
+  gulp.src('app/javascripts/**/*.js')
+    .pipe(concat('combined.js'))
+    .pipe(gulp.dest('dist/javscripts'));
+});
+
 //// Copy all static images
 //gulp.task('images', function() {
 // return gulp.src('client/img/**')
@@ -49,22 +42,17 @@ gulp.task('templates', function(){
 //    .pipe(gulp.dest('build/img'));
 //});
 //
+
 // The default task (called when you run `gulp`)
 gulp.task('default', function() {
-  gulp.run('sass', 'templates');
-
-  // Watch files and run tasks if they change
-  gulp.watch('client/js/**', function() {
-    gulp.run('scripts');
+  gulp.watch("./dev/sass/**/*.scss", function(event){
+    gulp.run('sass');
   });
-
-  gulp.watch('client/img/**', function() {
-    gulp.run('images');
+  gulp.watch("./dev/js/**/*.js", function(event){
+    gulp.run('uglify');
   });
-});
-
-gulp.task('deploy', function() {
-
-  gulp.run('minify')
-
+  gulp.watch("./dev/img/**/*", function(event){
+    gulp.run('imagemin');
+    gulp.run('svgmin');
+  });
 });

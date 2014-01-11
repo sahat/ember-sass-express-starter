@@ -24,3 +24,6 @@ dist
 build
 test/bower_components
 app/bower_components
+
+public/javascripts/application.js
+public/stylesheets/style.css
