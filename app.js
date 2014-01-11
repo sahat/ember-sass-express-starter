@@ -25,10 +25,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/api/v1/people', function(req, res) {
   res.send({ person: [
     {
+      id: '_1',
       name: 'Sahat',
       age: 25
     },
     {
+      id: '_2',
       name: 'Olsen',
       age: 18
     }
