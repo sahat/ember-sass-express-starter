@@ -1,24 +1,15 @@
 <div class="container">
-
   <div class="starter-template">
     <h1>Application Template</h1>
-
     <p class="lead">Use this document as a way to quickly start any new project.<br>
       All you get is this text and a mostly barebones HTML document.</p>
     <nav>
-      <ul class="nav nav-pills">
-        {{#link-to "index" tagName="li"}}
-          <a {{bindAttr href="view.href"}}>Home</a>
-        {{/link-to}}
-        {{#link-to "people" tagName="li"}}
-          <a {{bindAttr href="view.href"}}>People</a>
-        {{/link-to}}
+      <ul class="list-inline">
+        <li>{{#link-to "index"}}Home{{/link-to}}</li>
+        <li>{{#link-to "people"}}People{{/link-to}}</li>
       </ul>
-      <hr/>
     </nav>
-    {{outlet}}
   </div>
+  {{outlet}}
 </div>
-
-
 

@@ -1,0 +1,27 @@
+<div class="alert alert-success">
+  <strong>People Template</strong>
+</div>
+
+<ul class="list-inline">
+  <li>{{#linkTo "new_person"}}New Person{{/linkTo}}</li>
+</ul>
+
+<table class="table">
+  <thead>
+  <th>Name</th>
+  <th>Age</th>
+  <th>Action</th>
+  </thead>
+  <tbody>
+  {{#each person in controller}}
+    <tr>
+      <td>{{person.name}}</td>
+      <td>{{person.age}}</td>
+      <td>{{#link-to "person" person }}View{{/link-to}}</td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
+
+
+
