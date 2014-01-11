@@ -8,6 +8,9 @@ var path = require('path');
 var sass = require('node-sass');
 
 mongoose.connect('localhost');
+mongoose.connection.on('error', function() {
+  console.log('MongoDB Connection Error');
+});
 
 var personSchema = new mongoose.Schema({
   name:  String,
@@ -32,8 +35,6 @@ app.use(sass.middleware({
   debug: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 
 /**
  * Find person by id.
@@ -100,5 +101,8 @@ app.del('/api/v1/people/:id', function(req, res) {
   });
 });
 
-app.listen(app.get('port'));
-console.log('Express server running on port ' + app.get('port'));
+app.listen(app.get('port'), function() {
+  console.log('Express server running on port ' + app.get('port'));
+});
+
+module.exports = app;

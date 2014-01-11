@@ -30,6 +30,7 @@
     "url": "git://github.com/sahat/generator-ember-sass-express.git"
   },
   "scripts": {
+    "start": "node app.js",
     "test": "node_modules/.bin/mocha test --reporter spec"
   },
   "dependencies": {
