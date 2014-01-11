@@ -1,6 +1,9 @@
 var express = require('express');
+var mongoose = require('mongoose');
 var path = require('path');
 var sass = require('node-sass');
+
+mongoose.connect('localhost');
 
 var app = express();
 
@@ -19,11 +22,20 @@ app.use(sass.middleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/users', function(req, res) {
-  res.end(200)
+app.get('/api/v1/people', function(req, res) {
+  res.send({ person: [
+    {
+      name: 'Sahat',
+      age: 25
+    },
+    {
+      name: 'Olsen',
+      age: 18
+    }
+  ]});
 });
 
-app.get('/users/:id', function(req, res) {
+app.get('/api/v1/people/:id', function(req, res) {
   res.send(200);
 });
 
