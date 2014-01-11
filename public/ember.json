@@ -1,5 +1,5 @@
 {
-  "jsPath": "js",
+  "jsPath": "javascripts",
   "modules": "cjs"
 }
 

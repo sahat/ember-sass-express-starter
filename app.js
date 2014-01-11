@@ -9,14 +9,14 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
-app.use(express.cookieParser());
-app.use(express.session({ secret: 'change_me' }));
+app.use(express.cookieParser('your secret here'));
+app.use(express.session());
+app.use(app.router);
 app.use(sass.middleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
-  debug: true // obvious
+  debug: true
 }));
-app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/users', function(req, res) {
