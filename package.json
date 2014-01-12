@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Yeoman generator for Ember, Sass, Express, MongoDB",
   "keywords": [
-    "yeoman-generator",
     "scaffold",
     "generator",
     "framework",
@@ -19,8 +18,7 @@
     "scss",
     "rest",
     "ember",
-    "mvc",
-    "yo"
+    "mvc"
   ],
   "homepage": "https://github.com/sahat/generator-ember-sass-express",
   "bugs": "https://github.com/sahat/generator-ember-sass-express/issues",
@@ -42,9 +40,6 @@
     "mocha": "~1.17.0",
     "chai": "~1.8.1",
     "supertest": "~0.8.3"
-  },
-  "peerDependencies": {
-    "yo": "~1.1.2"
   },
   "engines": {
     "node": ">= 0.10.0"
