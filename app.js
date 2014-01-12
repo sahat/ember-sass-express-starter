@@ -9,7 +9,7 @@ var sass = require('node-sass');
 
 mongoose.connect('localhost');
 mongoose.connection.on('error', function() {
-  console.log('MongoDB Connection Error');
+  console.log('← MongoDB Connection Error →');
 });
 
 var personSchema = new mongoose.Schema({
@@ -29,6 +29,10 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.send(500, { message: 'Internal Server Error'});
+});
 app.use(sass.middleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
@@ -55,7 +59,7 @@ app.get('/api/v1/people/:id', function(req, res) {
  * @returns {object} person
  */
 
-app.get('/api/v1/people', function(req, res) {
+app.get('/api/v1/people', function(req, res, next) {
   Person.find(function(err, people) {
     res.send({ person: people });
   });
