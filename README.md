@@ -13,6 +13,9 @@ This project provides a starting point for your Ember apps with Express web fram
 
 Thanks to Ember's *Convention-over-Configuration* we are quickly able to generate application files with a simple command. That is a huge time saver in the long run.
 
+**Versions:** Ember 1.3, Ember Data 1.0b5, Handlebars 1.1.2, jQuery 2.0.3
+
+
 ## Prerequisites
 - Node.js
 - MongoDB
@@ -26,8 +29,12 @@ To start a web server, run `node app.js`. Note: MongoDB must be running or else 
 
 Updating *.scss stylesheets will automatically result in generating a proper css file, as long as the Express server is running. This ability is provided by the `node-sass` library.
 
+## TODO
+- Authentication (Local + Facebook)
+- Express Middleware
+
 ## Tests
-There are currently no tests, but I plan to add QUnit tests in the future. Why QUnit and not Mocha or Jasmine? QUnit is the default testing framework in Ember, and I have no preference for any testing framework, so I chose to stick with the defaults. But of course feel free to swap it for something else.
+There are currently no actual Ember tests, but I plan to add QUnit tests in the future. Why QUnit and not Mocha or Jasmine? QUnit is the default testing framework in Ember, and I have no preference for any testing framework, so I chose to stick with the defaults. But of course feel free to swap it for something else.
 
 ## Contributing
 Please feel free to submit a bug, propose an enhancement, send pull requests. This project is definitely not set in stone, and I plan to keep always improving it as I learn better practices from Ember and Node.js communities.
