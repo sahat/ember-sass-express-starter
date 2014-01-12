@@ -1,7 +1,7 @@
 {
-  "name": "generator-ember-sass-express",
+  "name": "ember-sass-express-starter",
   "version": "0.1.0",
-  "description": "Yeoman generator for Ember, Sass, Express, MongoDB",
+  "description": "Boilerplate for Ember, Sass, Express, MongoDB",
   "keywords": [
     "scaffold",
     "generator",
