@@ -23,7 +23,8 @@ Thanks to Ember's *Convention-over-Configuration* we are quickly able to generat
 - ember-tools: `sudo npm install -g ember-tools`
 
 ## Usage
-Clone the repo, navigate to it, and then install all the dependencies:
+Click on **Download ZIP** button in the right sidebar.
+Extract and navigate to the directory in terminal. Then to install all the dependencies run:
 ```
 npm install
 ```
