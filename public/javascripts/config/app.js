@@ -1,8 +1,3 @@
-require('../vendor/jquery');
-require('../vendor/handlebars');
-require('../vendor/ember');
-require('../vendor/ember-data');
-
 var App = Ember.Application.create();
 
 App.ApplicationSerializer = DS.RESTSerializer.extend({
@@ -10,7 +5,7 @@ App.ApplicationSerializer = DS.RESTSerializer.extend({
 });
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
-  namespace: 'api/v1'
+  namespace: 'api'
 });
 
 module.exports = App;

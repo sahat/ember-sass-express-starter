@@ -35,8 +35,7 @@ app.use(function(err, req, res, next){
 });
 app.use(sass.middleware({
   src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  debug: true
+  dest: path.join(__dirname, 'public')
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -47,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  * @returns {object} person
  */
 
-app.get('/api/v1/people/:id', function(req, res, next) {
+app.get('/api/people/:id', function(req, res, next) {
   Person.findById(req.params.id, function(err, person) {
     if (err) return next(err);
     res.send({ person: person });
@@ -60,7 +59,7 @@ app.get('/api/v1/people/:id', function(req, res, next) {
  * @returns {object} person
  */
 
-app.get('/api/v1/people', function(req, res, next) {
+app.get('/api/people', function(req, res, next) {
   Person.find(function(err, people) {
     if (err) return next(err);
     res.send({ person: people });
@@ -74,7 +73,7 @@ app.get('/api/v1/people', function(req, res, next) {
  * @returns {object} person
  */
 
-app.put('/api/v1/people/:id', function(req, res, next) {
+app.put('/api/people/:id', function(req, res, next) {
   Person.findByIdAndUpdate(req.params.id, req.body.person, function(err, person) {
     if (err) return next(err);
     res.send({ person: person });
@@ -88,7 +87,7 @@ app.put('/api/v1/people/:id', function(req, res, next) {
  * @returns {object} person
  */
 
-app.post('/api/v1/people', function(req, res, next) {
+app.post('/api/people', function(req, res, next) {
   var person = new Person(req.body.person);
   person.save(function(err) {
     if (err) return next(err);
@@ -103,7 +102,7 @@ app.post('/api/v1/people', function(req, res, next) {
  * @returns 200 OK
  */
 
-app.del('/api/v1/people/:id', function(req, res, next) {
+app.del('/api/people/:id', function(req, res, next) {
   Person.findById(req.params.id).remove(function(err) {
     if (err) return next(err);
     res.send(200);
