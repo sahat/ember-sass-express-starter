@@ -2,7 +2,10 @@ var EditPersonController = Ember.ObjectController.extend({
   actions: {
     save: function() {
       this.get('model').save();
-      this.redirectToModel();
+      this.redirectToMode;
+    },
+    cancel: function() {
+      this.transitionToRoute('people');
     }
   },
   redirectToModel: function() {

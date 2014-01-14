@@ -1,6 +1,6 @@
-<h3>Edit Person Template</h3>
+<h3>Edit/Create Person Template</h3>
 
-<form {{action save on="submit"}}>
+<form {{action "save" on="submit"}}>
   <div class="form-group">
     <label for="name">Name</label><br>
     {{view Ember.TextField valueBinding="name" id="name" classNames="form-control" autofocus="autofocus"}}
@@ -10,5 +10,5 @@
     {{view Ember.TextField valueBinding="age" id="age" classNames="form-control"}}
   </div>
   <button class="btn btn-default" type="submit">Save</button>
+  <button {{action "cancel"}} class="btn btn-default">Cancel</button>
 </form>
-
