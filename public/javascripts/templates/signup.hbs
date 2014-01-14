@@ -1,2 +1,33 @@
-<h2>signup</h2>
-
+<div class="container">
+  <div class="page-header">
+    <h3>Create Account</h3>
+  </div>
+  <div class="col-sm-8 col-sm-offset-2">
+    <form method="POST">
+      <div class="form-group text-center">
+        <a class="btn btn-social btn-facebook">
+          <i class="fa fa-facebook"></i>
+          Sign in with Facebook
+        </a>
+      </div>
+      <div class="form-group">
+        <label for="username" class="control-label">Username</label>
+        <input type="text" class="form-control" name="username" id="username" placeholder="Username" autofocus>
+      </div>
+      <div class="form-group">
+        <label for="email" class="control-label">Email</label>
+        <input type="text" class="form-control" name="email" id="email" placeholder="Email">
+      </div>
+      <div class="form-group">
+        <label for="password" class="control-label">Password</label>
+        <input type="password" class="form-control" name="password" id="password">
+        <small class="help-block">Must be at least 8 characters long.</small>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword" class="control-label">Confirm Password</label>
+        <input type="password" class="form-control" name="confirmPassword" id="confirmPassword">
+      </div>
+      <button class="btn btn-success">Sign up</button>
+    </form>
+  </div>
+</div>
