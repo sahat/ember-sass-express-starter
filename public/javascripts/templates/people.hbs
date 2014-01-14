@@ -1,26 +1,29 @@
-<h2>People Template</h2>
+<div class="container">
+  <h2>People Template</h2>
 
-<ul class="list-inline">
-  <li>{{#link-to "new_person"}}<i class="fa fa-plus"></i> New Person{{/link-to}}</li>
-</ul>
+  <ul class="list-inline">
+    <li>{{#link-to "new_person"}}<i class="fa fa-plus"></i> New Person{{/link-to}}</li>
+  </ul>
 
-<table class="table table-bordered">
-  <thead>
-  <th>Name</th>
-  <th>Age</th>
-  <th>Action</th>
-  </thead>
-  <tbody>
-  {{#each controller}}
-    <tr>
-      <td>{{name}}</td>
-      <td>{{age}}</td>
-      <td>{{#link-to "person" this}}View{{/link-to}}</td>
-    </tr>
-  {{else}}
-  <tr>
-    <td colspan="3" class="warning">No content</td>
-  </tr>
-  {{/each}}
-  </tbody>
-</table>
+  <table class="table table-bordered">
+    <thead>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Action</th>
+    </thead>
+    <tbody>
+    {{#each controller}}
+      <tr>
+        <td>{{name}}</td>
+        <td>{{age}}</td>
+        <td>{{#link-to "person" this}}View{{/link-to}}</td>
+      </tr>
+    {{else}}
+      <tr>
+        <td colspan="3" class="warning">No content</td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+
+</div>
