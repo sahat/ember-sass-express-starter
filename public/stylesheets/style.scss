@@ -1,6 +1,10 @@
+$navbar-height: 40px;
+$navbar-inverse-bg: rgba(0,0,0,0.8);
+
 @import "lib/bootstrap/bootstrap";
 @import "lib/font-awesome/font-awesome";
 
-.starter-template {
-  text-align: center;
+body {
+  padding-top: 40px;
+  padding-bottom: 20px;
 }
