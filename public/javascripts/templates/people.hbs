@@ -7,11 +7,11 @@
   <th>Action</th>
   </thead>
   <tbody>
-  {{#each person in controller}}
+  {{#each controller}}
     <tr>
-      <td>{{person.name}}</td>
-      <td>{{person.age}}</td>
-      <td>{{#link-to "person" person }}View{{/link-to}}</td>
+      <td>{{name}}</td>
+      <td>{{age}}</td>
+      <td>{{#link-to "person" this}}View{{/link-to}}</td>
     </tr>
   {{else}}
   <tr>
