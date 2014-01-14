@@ -41,6 +41,10 @@ For generating models, views, controllers, templates, routes please refer to emb
 ## TODO
 - Authentication (Local + Facebook)
 - ~~Express Middleware~~
+- Offline.js
+- Notification when server is shut down
+- Bootstrap navbar
+
 
 ## Tests
 There are currently no actual Ember tests, but I plan to add QUnit tests in the future. Why QUnit and not Mocha or Jasmine? QUnit is the default testing framework in Ember, and I have no preference for any testing framework, so I chose to stick with the defaults. But of course feel free to swap it for something else.
