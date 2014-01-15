@@ -5,7 +5,7 @@ Ember + Sass + Express App Kit
 ![Alt](https://lh6.googleusercontent.com/-NteYFnZZGKI/UtHxPT7EqLI/AAAAAAAADzc/Wmyj-FmIp7E/w500-h148-no/MongoDB_Logo.png)
 ![Alt](https://lh6.googleusercontent.com/-_z1-DOIYRGo/UtHxPt_tfxI/AAAAAAAADzs/S9dNTRV6fnQ/w500-h250-no/nodejs_logo.png)
 ![Alt](https://lh4.googleusercontent.com/-tO81OpzrRLQ/UtHxPi-wUgI/AAAAAAAADzk/yOe91cZHLvU/w500-h190-no/emberjs.png)
-
+![Alt](https://lh3.googleusercontent.com/-Psns_TAmzm8/UtYN7pVi5vI/AAAAAAAAD1s/6-NsXyupKNs/w500-h152-no/687474703a2f2f662e636c2e6c792f6974656d732f30563253316e304b3169337931633132326730342f53637265656e25323053686f74253230323031322d30342d31312532306174253230392e35392e3432253230414d2e706e67.png)
 ## Overview
 This project provides a starting point for your Ember apps with Express web framework serving as a RESTful API  back-end. Directory structure is heavily influenced by [ember-tools](https://github.com/rpflorence/ember-tools) and [Ember App Kit](https://github.com/stefanpenner/ember-app-kit). In fact it is designed to work with ember-tools for quickly scaffolding models, views, template, routes and controllers. Here is an example from ember-tools's github page:
 
@@ -39,11 +39,11 @@ To recap: Make sure MognoDB is running. Run `node app.js`. Then in a separate te
 For generating models, views, controllers, templates, routes please refer to ember-tools [github page](https://github.com/rpflorence/ember-tools).
 
 ## TODO
-- Authentication (Local + Facebook)
+- ~~Authentication (Local + Facebook)~~
 - ~~Express Middleware~~
 - Offline.js
 - Notification when server is shut down
-- Bootstrap navbar
+- ~~Bootstrap navbar~~
 
 
 ## Tests
