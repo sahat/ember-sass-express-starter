@@ -1,11 +1,10 @@
 var LoginController = Ember.ObjectController.extend({
   actions: {
     login: function() {
-      console.log('login');
+      alert('Fake Login');
       this.transitionToRoute('index');
     }
   }
 });
 
 module.exports = LoginController;
-
