@@ -3,7 +3,7 @@
     <h3>Sign in</h3>
   </div>
   <div class="col-sm-8 col-sm-offset-2">
-    <form method="POST">
+    <form {{action "login" on="submit"}}>
       <div class="form-group text-center">
         <a class="btn btn-social btn-facebook">
           <i class="fa fa-facebook"></i>
@@ -18,7 +18,7 @@
         <label for="password" class="control-label">Password</label>
         <input type="password" class="form-control" name="password" id="password">
       </div>
-      <button class="btn btn-info">Sign in</button>
+      <button type="submit" class="btn btn-info">Sign in</button>
     </form>
   </div>
 </div>
