@@ -40,29 +40,6 @@ app.use(sass.middleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**
- * Sign in the user.
- *
- * @param {string} login - username or email
- * @param {string} password
- */
-
-app.get('/api/login', function(req, res, next) {
-
-});
-
-/**
- * Create new account.
- *
- * @param {string} username
- * @param {string} email
- * @param {string} password
- */
-
-app.post('/api/signup', function(req, res, next) {
-
-});
-
-/**
  * Find person by id.
  *
  * @param {string} id
