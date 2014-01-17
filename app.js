@@ -6,6 +6,13 @@ var express = require('express');
 var mongoose = require('mongoose');
 var path = require('path');
 var sass = require('node-sass');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+
+/**
+ * Mongoose configuration
+ */
 
 mongoose.connect('localhost');
 mongoose.connection.on('error', function() {
@@ -17,7 +24,45 @@ var personSchema = new mongoose.Schema({
   age: Number
 });
 
+var userSchema = new mongoose.Schema({
+  username: { type: String, unique: true },
+  password: String,
+  email: { type: String, unique: true },
+  role: String,
+  isActive: String,
+  timeCreated: { type: Date, default: Date.now },
+  resetPasswordToken: String,
+});
+
 var Person = mongoose.model('Person', personSchema);
+var User = mongoose.model('User', userSchema);
+
+/**
+ * Passport configuration
+ */
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(new LocalStrategy(function(username, password, done) {
+  User.findOne({ email: username }, function(err, user) {
+    if (!user) return done(null, false, { message: 'No match found for user: ' + username });
+    user.comparePassword(password, function(err, isMatch) {
+      if(isMatch) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: 'Invalid email or password.' });
+      }
+    });
+  });
+}));
 
 var app = express();
 
@@ -106,6 +151,72 @@ app.del('/api/people/:id', function(req, res, next) {
   Person.findById(req.params.id).remove(function(err) {
     if (err) return next(err);
     res.send(200);
+  });
+});
+
+/**
+ * POST /login
+ * Sign in using email and password.
+ * @param {string} username|email
+ * @param {string} password
+ */
+
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) return next(err);
+    if (!user) {
+      return res.send(404, { message: 'User not found' });
+    }
+    req.logIn(user, function(err) {
+      if (err) return next(err);
+      return res.send({ message: 'success'});
+    });
+  })(req, res, next);
+});
+
+/**
+ * POST /signup
+ * Create a new local account.
+ * @param {string} email
+ * @param {string} password
+ */
+
+app.post('/signup', function(req, res, next) {
+  var errors = [];
+
+  if (!req.body.email) {
+    errors.push('Email cannot be blank.');
+  }
+
+  if (!req.body.password) {
+    errors.push('Password cannot be blank.');
+  }
+
+  if (req.body.password !== req.body.confirmPassword) {
+    errors.push('Passwords do not match.');
+  }
+
+  if (errors.length) {
+    req.flash('messages', errors);
+    return res.redirect('/signup');
+  }
+
+  var user = new User({
+    username: req.body.username,
+    password: req.body.password
+  });
+
+  user.save(function(err) {
+    if (err) {
+      if (err.code === 11000) {
+        req.flash('messages', 'User already exists.');
+      }
+      return res.redirect('/signup');
+    }
+    req.logIn(user, function(err) {
+      if (err) return next(err);
+      res.redirect('/');
+    });
   });
 });
 
