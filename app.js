@@ -31,7 +31,7 @@ var userSchema = new mongoose.Schema({
   role: String,
   isActive: String,
   timeCreated: { type: Date, default: Date.now },
-  resetPasswordToken: String,
+  resetPasswordToken: String
 });
 
 var Person = mongoose.model('Person', personSchema);
