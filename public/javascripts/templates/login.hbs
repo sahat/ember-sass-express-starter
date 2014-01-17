@@ -2,6 +2,9 @@
   <div class="page-header">
     <h3>Sign in</h3>
   </div>
+  {{#if loginFailed}}
+    <div class="alert alert-danger">Invalid username or password.</div>
+  {{/if}}
   <div class="col-sm-8 col-sm-offset-2">
     <form {{action "login" on="submit"}}>
       <div class="form-group text-center">
@@ -11,14 +14,14 @@
         </a>
       </div>
       <div class="form-group">
-        <label for="login" class="control-label">Username or Email</label>
-        <input type="text" class="form-control" name="login" id="login" autofocus>
+        <label for="username" class="control-label">Username or Email</label>
+        <input type="text" class="form-control" name="username" id="username" autofocus>
       </div>
       <div class="form-group">
         <label for="password" class="control-label">Password</label>
         <input type="password" class="form-control" name="password" id="password">
       </div>
-      <button type="submit" class="btn btn-info">Sign in</button>
+      <button type="submit" class="btn btn-info" {{bind-attr disabled="isProcessing"}}>Sign in</button>
     </form>
   </div>
 </div>
