@@ -15,20 +15,20 @@
       </div>
       <div class="form-group">
         <label for="username" class="control-label">Username</label>
-        {{input type="text" class="form-control" value=username }}
+        {{input type="text" class="form-control" value=username autofocus="autofocus"}}
       </div>
       <div class="form-group">
         <label for="email" class="control-label">Email</label>
-        {{input type="text" class="form-control" value=email }}
+        {{input type="text" class="form-control" value=email}}
       </div>
       <div class="form-group">
         <label for="password" class="control-label">Password</label>
-        {{input type="password" class="form-control" value=password }}
+        {{input type="password" class="form-control" value=password}}
         <small class="help-block">Must be at least 8 characters long.</small>
       </div>
       <div class="form-group">
         <label for="confirmPassword" class="control-label">Confirm Password</label>
-        {{input type="password" class="form-control" value=confirmPassword }}
+        {{input type="password" class="form-control" value=confirmPassword}}
       </div>
       <button type="submit" class="btn btn-success" {{bind-attr disabled="isProcessing"}}>Sign up</button>
     </form>
