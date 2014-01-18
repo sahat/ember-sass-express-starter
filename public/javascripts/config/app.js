@@ -8,4 +8,11 @@ App.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: 'api'
 });
 
+Ember.Application.initializer({
+  name: 'authentication',
+  initialize: function(container, application) {
+    Ember.SimpleAuth.setup(container, application);
+  }
+});
+
 module.exports = App;
