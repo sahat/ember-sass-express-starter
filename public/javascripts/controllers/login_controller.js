@@ -1,22 +1,29 @@
-var LoginController = Ember.ObjectController.extend({
+var LoginController = Ember.Controller.extend({
   loginFailed: false,
   isProcessing: false,
 
   actions: {
     login: function() {
-      this.setProperties({
-        loginFailed: false,
-        isProcessing: true
+      this.auth.signIn({
+        data: this.getProperties('username', 'password')
       });
-      $.post('/login', {
-        username: this.get('username'),
-        password: this.get('password')
-      }).done(function() {
-        console.log('Login success');
-      }).fail(function() {
-        this.set('isProcessing', false);
-        this.set('loginFailed', true);
-      }.bind(this));
+
+//  this.setProperties({
+//        loginFailed: false,
+//        isProcessing: true
+//      });
+//      $.post('/login', {
+//        username: this.get('username'),
+//        password: this.get('password')
+//      }).done(function(data) {
+//          console.log(data);
+//          //this.reset();
+//          this.set('token', data.token);
+//          this.transitionToRoute('index');
+//      }).fail(function(error) {
+//        this.set('isProcessing', false);
+//        this.set('loginFailed', true);
+//      }.bind(this));
     }
   }
 });
