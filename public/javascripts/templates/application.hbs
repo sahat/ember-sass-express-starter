@@ -15,7 +15,11 @@
         <li>{{#link-to "people"}}People{{/link-to}}</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>{{#link-to "login"}}Sign In{{/link-to}}</li>
+        {{#if session.isAuthenticated}}
+          <li>{{#link-to "logout"}}Logout{{/link-to}}</li>
+        {{else}}
+          <li>{{#link-to "login"}}Sign In{{/link-to}}</li>
+        {{/if}}
         <li>{{#link-to "signup"}}Create Account{{/link-to}}</li>
       </ul>
     </div>
