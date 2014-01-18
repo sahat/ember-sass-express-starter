@@ -6,8 +6,6 @@ var express = require('express');
 var mongoose = require('mongoose');
 var path = require('path');
 var sass = require('node-sass');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 
 /**
  * Mongoose configuration
@@ -22,51 +20,7 @@ var personSchema = new mongoose.Schema({
   name:  String,
   age: Number
 });
-
-var userSchema = new mongoose.Schema({
-  username: { type: String, unique: true },
-  password: String,
-  email: { type: String, unique: true },
-  role: String,
-  timeCreated: { type: Date, default: Date.now },
-});
-
 var Person = mongoose.model('Person', personSchema);
-var User = mongoose.model('User', userSchema);
-
-/**
- * Passport configuration
- */
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
-});
-
-passport.use(new LocalStrategy(function(username, password, done) {
-  User.findOne({ email: username }, function(err, user) {
-    if (err) return done(err);
-    if (!user) return done(null, false, { message: 'No match found for user: ' + username });
-    user.comparePassword(password, function(err, isMatch) {
-      if (err) return done(err);
-      if(isMatch) {
-        return done(null, user);
-      } else {
-        return done(null, false, { message: 'Invalid email or password.' });
-      }
-    });
-  });
-}));
-
-var ensureAuthenticated = function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) return res.send(401);
-  return next();
-};
 
 var app = express();
 
@@ -75,10 +29,8 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(express.cookieParser());
+app.use(express.session({ secret: 'your secret here' }));
 app.use(app.router);
 app.use(function(err, req, res, next){
   console.error(err.stack);
@@ -157,68 +109,6 @@ app.del('/api/people/:id', function(req, res, next) {
   Person.findById(req.params.id).remove(function(err) {
     if (err) return next(err);
     res.send(200);
-  });
-});
-
-/**
- * POST /login
- * Sign in using email and password.
- * @param {string} username|email
- * @param {string} password
- */
-
-app.post('/token', function(req, res, next) {
-  console.log(req.get('grant_type'));
-  console.log(req);
-});
-
-app.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
-    if (err) return next(err);
-    if (!user) {
-      return res.send(404, { message: 'User not found' });
-    }
-    req.logIn(user, function(err) {
-      if (err) return next(err);
-      return res.send({ message: 'success'});
-    });
-  })(req, res, next);
-});
-
-/**
- * POST /signup
- * Create a new local account.
- * @param {string} username
- * @param {string} email
- * @param {string} password
- * @param {string} confirmPassword
- */
-
-app.post('/signup', function(req, res, next) {
-  if (!req.body.email) {
-    return res.send(500, 'Email cannot be blank.');
-  }
-
-  if (!req.body.password) {
-    return res.send(500, 'Password cannot be blank.');
-  }
-
-  if (req.body.password !== req.body.confirmPassword) {
-    return res.send(500, 'Passwords do not match.');
-  }
-
-  var user = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password
-  });
-
-  user.save(function(err) {
-    if (err) return res.send(500, err.message);
-    req.logIn(user, function(err) {
-      if (err) return next(err);
-      res.redirect('/');
-    });
   });
 });
 
