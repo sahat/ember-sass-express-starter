@@ -8,7 +8,6 @@ var path = require('path');
 var sass = require('node-sass');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
 
 /**
  * Mongoose configuration
@@ -29,9 +28,7 @@ var userSchema = new mongoose.Schema({
   password: String,
   email: { type: String, unique: true },
   role: String,
-  isActive: String,
   timeCreated: { type: Date, default: Date.now },
-  resetPasswordToken: String
 });
 
 var Person = mongoose.model('Person', personSchema);
@@ -53,8 +50,10 @@ passport.deserializeUser(function(id, done) {
 
 passport.use(new LocalStrategy(function(username, password, done) {
   User.findOne({ email: username }, function(err, user) {
+    if (err) return done(err);
     if (!user) return done(null, false, { message: 'No match found for user: ' + username });
     user.comparePassword(password, function(err, isMatch) {
+      if (err) return done(err);
       if(isMatch) {
         return done(null, user);
       } else {
@@ -63,6 +62,11 @@ passport.use(new LocalStrategy(function(username, password, done) {
     });
   });
 }));
+
+var ensureAuthenticated = function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) return res.send(401);
+  return next();
+};
 
 var app = express();
 
@@ -73,6 +77,8 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.router);
 app.use(function(err, req, res, next){
   console.error(err.stack);
@@ -161,6 +167,11 @@ app.del('/api/people/:id', function(req, res, next) {
  * @param {string} password
  */
 
+app.post('/token', function(req, res, next) {
+  console.log(req.get('grant_type'));
+  console.log(req);
+});
+
 app.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) return next(err);
@@ -177,42 +188,33 @@ app.post('/login', function(req, res, next) {
 /**
  * POST /signup
  * Create a new local account.
+ * @param {string} username
  * @param {string} email
  * @param {string} password
+ * @param {string} confirmPassword
  */
 
 app.post('/signup', function(req, res, next) {
-  var errors = [];
-
   if (!req.body.email) {
-    errors.push('Email cannot be blank.');
+    return res.send(500, 'Email cannot be blank.');
   }
 
   if (!req.body.password) {
-    errors.push('Password cannot be blank.');
+    return res.send(500, 'Password cannot be blank.');
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    errors.push('Passwords do not match.');
-  }
-
-  if (errors.length) {
-    req.flash('messages', errors);
-    return res.redirect('/signup');
+    return res.send(500, 'Passwords do not match.');
   }
 
   var user = new User({
     username: req.body.username,
+    email: req.body.email,
     password: req.body.password
   });
 
   user.save(function(err) {
-    if (err) {
-      if (err.code === 11000) {
-        req.flash('messages', 'User already exists.');
-      }
-      return res.redirect('/signup');
-    }
+    if (err) return res.send(500, err.message);
     req.logIn(user, function(err) {
       if (err) return next(err);
       res.redirect('/');
