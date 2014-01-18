@@ -15,7 +15,7 @@
         <li>{{#link-to "people"}}People{{/link-to}}</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        {{#if session.isAuthenticated}}
+        {{#if auth.signedIn}}
           <li>{{#link-to "logout"}}Logout{{/link-to}}</li>
         {{else}}
           <li>{{#link-to "login"}}Sign In{{/link-to}}</li>
