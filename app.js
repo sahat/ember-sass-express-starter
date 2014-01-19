@@ -78,14 +78,18 @@ passport.use(new LocalStrategy(function(username, password, done) {
   console.log(username, password);
   User.findOne({ username: username }, function(err, user) {
     if (err) return done(err);
-    if (!user) return done(null, false, { message: 'No match found for user: ' + username });
+    if (!user) {
+        console.log('no user!!! from passport ')
+        return done(null, false, { error: 'Incorrect username or password.' });
+    }
     user.comparePassword(password, function(err, isMatch) {
       if (err) return done(err);
       if(isMatch) {
         console.log('match')
         return done(null, user);
       } else {
-        return done(null, false, { message: 'Invalid username or password.' });
+          console.log('invalid username');
+        return done(null, false, { error: 'Incorrect username or password.' });
       }
     });
   });
@@ -112,6 +116,7 @@ app.use(sass.middleware({
   dest: path.join(__dirname, 'public')
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 /**
  * Find person by id.
@@ -184,42 +189,28 @@ app.del('/api/people/:id', function(req, res, next) {
 });
 
 /**
- * Token
- */
-app.post('/token', function(req, res, next) {
-  if (req.body.grant_type === 'password') {
-    passport.authenticate('local', function(err, user) {
-      if (err) return next(err);
-      if (!user) {
-        console.log('no user');
-        return res.send({ error: 'Invalid Grant' });
-      }
-      console.log(user.token);
-      res.send({ access_token: user.token });
-    })(req, res, next);
-  } else {
-    res.send(400, { 'error': 'Unsupported Grant Type' });
-  }
-});
-
-/**
- * POST /login
+ * POST /token
  * Sign in using email and password.
- * @param {string} username|email
+ * @param {string} username
  * @param {string} password
  */
-
-app.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, user) {
-    if (err) return next(err);
-    if (!user) {
-      return res.send(404, { message: 'User not found' });
-    }
-    res.send({
-      success: true,
-      token: user.token
-    });
-  })(req, res, next);
+app.post('/token', passport.authenticate('local'), function(req, res, next) {
+    console.log('success');
+//  if (req.body.grant_type === 'password') {
+//
+//      passport.authenticate('local', function(err, user) {
+//      if (err) return next(err);
+//      if (!user) {
+//        console.log('no user');
+//        return res.send(400, { error: 'Invalid Grant' });
+//      }
+//      console.log(user.token);
+//      res.send({ access_token: user.token });
+//    })(req, res, next);
+//
+//  } else {
+//    res.send(400, { error: 'Unsupported Grant Type' });
+//  }
 });
 
 /**
@@ -259,15 +250,6 @@ app.post('/signup', function(req, res, next) {
     });
   });
 });
-
-function isValidToken(req, res, next) {
-  var userToken = req.body.token || req.param('token') || req.headers.token;
-  if (req.user.token || userToken != req.user.token) {
-    res.send(401, { error: 'Invalid token. You provided: ' + userToken });
-    return false;
-  }
-  return true;
-}
 
 app.listen(app.get('port'), function() {
   console.log('Express server running on port ' + app.get('port'));
