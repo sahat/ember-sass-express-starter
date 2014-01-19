@@ -8,6 +8,8 @@ var path = require('path');
 var sass = require('node-sass');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var crypto = require('crypto');
+var bcrypt = require('bcrypt');
 
 /**
  * Mongoose configuration
@@ -23,15 +25,39 @@ var personSchema = new mongoose.Schema({
   age: Number
 });
 
+var Person = mongoose.model('Person', personSchema);
+
 var userSchema = new mongoose.Schema({
   username: { type: String, unique: true },
-  password: String,
   email: { type: String, unique: true },
-  role: String,
-  timeCreated: { type: Date, default: Date.now },
+  password: String,
+  token: String
 });
 
-var Person = mongoose.model('Person', personSchema);
+userSchema.pre('save', function(next) {
+  var user = this;
+  var SALT_FACTOR = 5;
+
+  if (!user.isModified('password')) return next();
+
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+    if (err) return next(err);
+
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if (err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if(err) return cb(err);
+    cb(null, isMatch);
+  });
+};
+
 var User = mongoose.model('User', userSchema);
 
 /**
@@ -49,24 +75,21 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new LocalStrategy(function(username, password, done) {
-  User.findOne({ email: username }, function(err, user) {
+  console.log(username, password);
+  User.findOne({ username: username }, function(err, user) {
     if (err) return done(err);
     if (!user) return done(null, false, { message: 'No match found for user: ' + username });
     user.comparePassword(password, function(err, isMatch) {
       if (err) return done(err);
       if(isMatch) {
+        console.log('match')
         return done(null, user);
       } else {
-        return done(null, false, { message: 'Invalid email or password.' });
+        return done(null, false, { message: 'Invalid username or password.' });
       }
     });
   });
 }));
-
-var ensureAuthenticated = function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) return res.send(401);
-  return next();
-};
 
 var app = express();
 
@@ -161,26 +184,40 @@ app.del('/api/people/:id', function(req, res, next) {
 });
 
 /**
+ * Token
+ */
+app.post('/token', function(req, res, next) {
+  if (req.body.grant_type === 'password') {
+    passport.authenticate('local', function(err, user) {
+      if (err) return next(err);
+      if (!user) {
+        console.log('no user');
+        return res.send({ error: 'Invalid Grant' });
+      }
+      console.log(user.token);
+      res.send({ access_token: user.token });
+    })(req, res, next);
+  } else {
+    res.send(400, { 'error': 'Unsupported Grant Type' });
+  }
+});
+
+/**
  * POST /login
  * Sign in using email and password.
  * @param {string} username|email
  * @param {string} password
  */
 
-app.post('/token', function(req, res, next) {
-  console.log(req.get('grant_type'));
-  console.log(req);
-});
-
 app.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
+  passport.authenticate('local', function(err, user) {
     if (err) return next(err);
     if (!user) {
       return res.send(404, { message: 'User not found' });
     }
-    req.logIn(user, function(err) {
-      if (err) return next(err);
-      return res.send({ message: 'success'});
+    res.send({
+      success: true,
+      token: user.token
     });
   })(req, res, next);
 });
@@ -195,22 +232,23 @@ app.post('/login', function(req, res, next) {
  */
 
 app.post('/signup', function(req, res, next) {
-  if (!req.body.email) {
-    return res.send(500, 'Email cannot be blank.');
-  }
-
-  if (!req.body.password) {
-    return res.send(500, 'Password cannot be blank.');
-  }
-
-  if (req.body.password !== req.body.confirmPassword) {
-    return res.send(500, 'Passwords do not match.');
-  }
+//  if (!req.body.email) {
+//    return res.send(500, 'Email cannot be blank.');
+//  }
+//
+//  if (!req.body.password) {
+//    return res.send(500, 'Password cannot be blank.');
+//  }
+//
+//  if (req.body.password !== req.body.confirmPassword) {
+//    return res.send(500, 'Passwords do not match.');
+//  }
 
   var user = new User({
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    token: crypto.createHash('sha1').update(req.body.username + Date.now().toString()).digest('hex')
   });
 
   user.save(function(err) {
@@ -221,6 +259,15 @@ app.post('/signup', function(req, res, next) {
     });
   });
 });
+
+function isValidToken(req, res, next) {
+  var userToken = req.body.token || req.param('token') || req.headers.token;
+  if (req.user.token || userToken != req.user.token) {
+    res.send(401, { error: 'Invalid token. You provided: ' + userToken });
+    return false;
+  }
+  return true;
+}
 
 app.listen(app.get('port'), function() {
   console.log('Express server running on port ' + app.get('port'));
