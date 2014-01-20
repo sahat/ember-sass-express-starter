@@ -1,13 +1,13 @@
 var LoginView = Ember.View.extend({
-  submit: function() {
-    this.get('controller').send('error', false);
-  },
-
-  focusPassword: function() {
+  didInsertElement: function() {
     if (this.get('controller.error')) {
       this.$('#password').focus();
     }
-  }.observes('controller.error')
+  },
+  submit: function() {
+    this.get('controller').send('error', false);
+    this.get('context').set('errorMessage', null)
+  }
 });
 
 module.exports = LoginView;
