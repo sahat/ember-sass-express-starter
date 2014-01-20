@@ -1,3 +1,3 @@
 Ember.TextField.reopen({
-  attributeBindings: ['autofocus']
+  attributeBindings: ['autofocus', 'title', 'required']
 });

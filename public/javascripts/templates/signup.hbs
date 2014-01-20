@@ -2,10 +2,14 @@
   <div class="page-header">
     <h3>Create Account</h3>
   </div>
-  {{#if signupFailed}}
-    <div class="alert alert-danger">{{message}}</div>
-  {{/if}}
   <div class="col-sm-8 col-sm-offset-2">
+
+    {{#if errorMessage}}
+      <div class="alert alert-danger">
+        {{errorMessage}}
+      </div>
+    {{/if}}
+
     <form {{action "signup" on="submit"}}>
       <div class="form-group text-center">
         <a class="btn btn-social btn-facebook">
