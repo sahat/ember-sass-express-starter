@@ -102,10 +102,7 @@ app.use(function(err, req, res, next){
   console.error(err.stack);
   res.send(500, { message: 'Internal Server Error'});
 });
-app.use(sass.middleware({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public')
-}));
+app.use(sass.middleware({ src: path.join(__dirname, 'public') }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
