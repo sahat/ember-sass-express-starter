@@ -6,6 +6,12 @@ Ember + Sass + Express App Kit
 ![Alt](https://lh6.googleusercontent.com/-_z1-DOIYRGo/UtHxPt_tfxI/AAAAAAAADzs/S9dNTRV6fnQ/w500-h250-no/nodejs_logo.png)
 ![Alt](https://lh4.googleusercontent.com/-tO81OpzrRLQ/UtHxPi-wUgI/AAAAAAAADzk/yOe91cZHLvU/w500-h190-no/emberjs.png)
 ![Alt](https://lh3.googleusercontent.com/-Psns_TAmzm8/UtYN7pVi5vI/AAAAAAAAD1s/6-NsXyupKNs/w500-h152-no/687474703a2f2f662e636c2e6c792f6974656d732f30563253316e304b3169337931633132326730342f53637265656e25323053686f74253230323031322d30342d31312532306174253230392e35392e3432253230414d2e706e67.png)
+
+## Screenshots
+![Alt](https://lh3.googleusercontent.com/-hulAr-HrmHI/UtzRvqli0AI/AAAAAAAAD3U/xlQAZnFiTR0/w1084-h828-no/Screenshot+2014-01-20+02.30.58.png)
+![Alt](https://lh6.googleusercontent.com/-wwvL98Pjf-4/UtzRvaI2D4I/AAAAAAAAD3M/ljiEIf1i40A/w1084-h828-no/Screenshot+2014-01-20+02.31.49.png)
+![Alt](https://lh3.googleusercontent.com/-G3vNxLcLoIk/UtzRwGTa_9I/AAAAAAAAD3k/e-8zx9axDS4/w1084-h828-no/Screenshot+2014-01-20+02.32.11.png)
+
 ## Overview
 This project provides a starting point for your Ember apps with Express web framework serving as a RESTful API  back-end. Directory structure is heavily influenced by [ember-tools](https://github.com/rpflorence/ember-tools) and [Ember App Kit](https://github.com/stefanpenner/ember-app-kit). In fact it is designed to work with ember-tools for quickly scaffolding models, views, template, routes and controllers. Here is an example from ember-tools's github page:
 
@@ -13,10 +19,6 @@ This project provides a starting point for your Ember apps with Express web fram
 
 Thanks to Ember's *Convention-over-Configuration* we are quickly able to generate application files with a simple command. That is a huge time saver in the long run.
 
-## Screenshots
-![Alt](https://lh3.googleusercontent.com/-hulAr-HrmHI/UtzRvqli0AI/AAAAAAAAD3U/xlQAZnFiTR0/w1084-h828-no/Screenshot+2014-01-20+02.30.58.png)
-![Alt](https://lh6.googleusercontent.com/-wwvL98Pjf-4/UtzRvaI2D4I/AAAAAAAAD3M/ljiEIf1i40A/w1084-h828-no/Screenshot+2014-01-20+02.31.49.png)
-![Alt](https://lh3.googleusercontent.com/-G3vNxLcLoIk/UtzRwGTa_9I/AAAAAAAAD3k/e-8zx9axDS4/w1084-h828-no/Screenshot+2014-01-20+02.32.11.png)
 
 <hr />
 **Versions:** Ember 1.3, Ember Data 1.0b5, Handlebars 1.1.2, jQuery 2.0.3
@@ -44,11 +46,14 @@ To recap: Make sure MognoDB is running. Run `node app.js`. Then in a separate te
 For generating models, views, controllers, templates, routes please refer to ember-tools [github page](https://github.com/rpflorence/ember-tools).
 
 ## TODO
-- ~~Authentication (Local + Facebook)~~
+- ~~Authentication (Local)~~ + Facebook
 - ~~Express Middleware~~
 - Offline.js
 - Notification when server is shut down
 - ~~Bootstrap navbar~~
+- QUnit Ember tests
+- Display an alert message on login/singup request timeout
+- Bootstrap Footer
 
 
 ## Tests
