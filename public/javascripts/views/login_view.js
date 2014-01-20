@@ -4,9 +4,9 @@ var LoginView = Ember.View.extend({
       this.$('#password').focus();
     }
   },
-  submit: function() {
+  willDestroyElement: function() {
     this.get('controller').send('error', false);
-    this.get('context').set('errorMessage', null)
+    this.get('context').set('errorMessage', null);
   }
 });
 

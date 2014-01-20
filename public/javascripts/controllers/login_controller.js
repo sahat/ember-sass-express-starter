@@ -6,7 +6,6 @@ var LoginController = Ember.Controller.extend(Ember.SimpleAuth.LoginControllerMi
       this.set('errorMessage', xhr.responseText);
     },
     error: function(value) {
-      console.log('error is now false');
       this.set('error', value);
     }
   }
