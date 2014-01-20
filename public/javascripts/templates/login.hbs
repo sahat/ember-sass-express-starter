@@ -6,7 +6,7 @@
 
     {{#if errorMessage}}
       <div class="alert alert-danger">
-        <p>{{errorMessage}}</p>
+        {{errorMessage}}
       </div>
     {{/if}}
 
@@ -19,11 +19,11 @@
       </div>
       <div class="form-group">
         <label for="identification" class="control-label">Username or Email</label>
-        {{input type="text" class="form-control" value=identification autofocus="autofocus"}}
+        {{input type="text" class="form-control" id="identification" value=identification autofocus="autofocus"}}
       </div>
       <div class="form-group">
         <label for="password" class="control-label">Password</label>
-        {{input type="password" class="form-control" value=password}}
+        {{input type="password" class="form-control" id="password" value=password}}
       </div>
       <button type="submit" class="btn btn-info">Sign in</button>
     </form>
