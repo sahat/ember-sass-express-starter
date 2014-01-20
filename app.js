@@ -185,6 +185,7 @@ app.del('/api/people/:id', function(req, res, next) {
  * @param {string} username
  * @param {string} password
  */
+
 app.post('/token', function(req, res, next) {
   passport.authenticate('local', function(err, user) {
     if (err) return next(err);
@@ -203,17 +204,21 @@ app.post('/token', function(req, res, next) {
  */
 
 app.post('/signup', function(req, res, next) {
-//  if (!req.body.email) {
-//    return res.send(500, 'Email cannot be blank.');
-//  }
-//
-//  if (!req.body.password) {
-//    return res.send(500, 'Password cannot be blank.');
-//  }
-//
-//  if (req.body.password !== req.body.confirmPassword) {
-//    return res.send(500, 'Passwords do not match.');
-//  }
+  if (!req.body.username) {
+    return res.send(400, 'Username cannot be blank.');
+  }
+
+  if (!req.body.email) {
+    return res.send(400, 'Email cannot be blank.');
+  }
+
+  if (!req.body.password) {
+    return res.send(400, 'Password cannot be blank.');
+  }
+
+  if (req.body.password !== req.body.confirmPassword) {
+    return res.send(400, 'Passwords do not match.');
+  }
 
   var user = new User({
     username: req.body.username,
