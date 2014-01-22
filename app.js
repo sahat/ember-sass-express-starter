@@ -258,10 +258,7 @@ app.post('/signup', function(req, res, next) {
 
   user.save(function(err) {
     if (err) return res.send(500, err.message);
-    req.logIn(user, function(err) {
-      if (err) return next(err);
-      res.redirect('/');
-    });
+    res.send(200);
   });
 });
 
