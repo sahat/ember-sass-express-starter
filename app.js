@@ -20,12 +20,27 @@ mongoose.connection.on('error', function() {
   console.log('← MongoDB Connection Error →');
 });
 
+/**
+ * Person Schema.
+ *
+ * @type {mongoose.Schema}
+ */
+
 var personSchema = new mongoose.Schema({
   name:  String,
   age: Number
 });
 
+/**
+ * Person mongoose model.
+ */
 var Person = mongoose.model('Person', personSchema);
+
+/**
+ * User Schema.
+ *
+ * @type {mongoose.Schema}
+ */
 
 var userSchema = new mongoose.Schema({
   username: { type: String, unique: true },
@@ -34,15 +49,20 @@ var userSchema = new mongoose.Schema({
   token: String
 });
 
+/**
+ * User Schema pre-save hooks.
+ * It is used for hasing and salting user's password and token.
+ */
+
 userSchema.pre('save', function(next) {
   var user = this;
-  var SALT_FACTOR = 5;
+
+  var hashContent = user.username + user.password + Date.now() + Math.random();
+  user.token = crypto.createHash('sha256').update(hashContent).digest('hex');
 
   if (!user.isModified('password')) return next();
-
-  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+  bcrypt.genSalt(10, function(err, salt) {
     if (err) return next(err);
-
     bcrypt.hash(user.password, salt, function(err, hash) {
       if (err) return next(err);
       user.password = hash;
@@ -51,6 +71,11 @@ userSchema.pre('save', function(next) {
   });
 });
 
+/**
+ * Helper method for comparing user's password input with a
+ * hashed and salted password stored in the database.
+ */
+
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if(err) return cb(err);
@@ -58,10 +83,14 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
+/**
+ * User mongoose model.
+ */
+
 var User = mongoose.model('User', userSchema);
 
 /**
- * Passport configuration
+ * Passport setup.
  */
 
 passport.serializeUser(function(user, done) {
