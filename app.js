@@ -51,17 +51,17 @@ var userSchema = new mongoose.Schema({
 
 /**
  * User Schema pre-save hooks.
- * It is used for hasing and salting user's password and token.
+ * It is used for hashing and salting user's password and token.
  */
 
 userSchema.pre('save', function(next) {
   var user = this;
 
   var hashContent = user.username + user.password + Date.now() + Math.random();
-  user.token = crypto.createHash('sha256').update(hashContent).digest('hex');
+  user.token = crypto.createHash('sha1').update(hashContent).digest('hex');
 
   if (!user.isModified('password')) return next();
-  bcrypt.genSalt(10, function(err, salt) {
+  bcrypt.genSalt(5, function(err, salt) {
     if (err) return next(err);
     bcrypt.hash(user.password, salt, function(err, hash) {
       if (err) return next(err);
