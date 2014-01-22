@@ -252,8 +252,7 @@ app.post('/signup', function(req, res, next) {
   var user = new User({
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password,
-    token: crypto.createHash('sha1').update(req.body.username + Date.now().toString()).digest('hex')
+    password: req.body.password
   });
 
   user.save(function(err) {
