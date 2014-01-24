@@ -65,7 +65,7 @@ Please feel free to submit a bug, propose an enhancement, send pull requests. Th
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2013 Sahat Yalkabov
+Copyright (c) 2014 Sahat Yalkabov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
