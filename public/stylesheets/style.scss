@@ -1,22 +1,38 @@
+// Typography
 $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-$brand-primary: #4f8edc;
-$brand-success: #85c744;
-$brand-warning: #cba50c;
-$brand-danger: #e73c3c;
-$brand-info: #2bbce0;
+// Brand colors
+$brand-primary: #4f8edd;
+$brand-success: #85c844;
+$brand-warning: #cba50d;
+$brand-danger: #e72c3c;
+$brand-info: #2bbce1;
 
+// Navbar
 $navbar-height: 40px;
 $navbar-inverse-color: rgba(255, 255, 255, 0.5);
 $navbar-inverse-bg: #313338;
 $navbar-inverse-border: darken($navbar-inverse-bg, 10%);
 $navbar-inverse-link-color: rgba(255, 255, 255, 0.5);
 
-
+// Buttons
 $btn-font-weight: 600;
 $btn-default-bg: #e6e7e7;
 $btn-default-border: #e6e7e7;
 
+// Alerts and form states
+$state-success-text: #527f26;
+$state-success-bg: #ebf6e1;
+$state-success-border: #b8df92;
+$state-info-text: #157890;
+$state-info-bg: #ddf4fb;
+$state-info-border: #84d8ed;
+$state-warning-text: #917608;
+$state-warning-bg: #fbf3d0;
+$state-warning-border: #f6dc6f;
+$state-danger-text: #a81515;
+$state-danger-bg: #fdf2f2;
+$state-danger-border: #f29797;
 
 @import "lib/bootstrap/bootstrap";
 @import "lib/font-awesome/font-awesome";
@@ -25,6 +41,10 @@ $btn-default-border: #e6e7e7;
 body {
   padding-top: 40px;
   padding-bottom: 20px;
+}
+
+.alert {
+  border-radius: 1px;
 }
 
 .navbar-brand {
@@ -39,7 +59,7 @@ body {
 .btn {
   padding: 8px 16px;
   border-width: 0;
-  border-radius: 0;
+  border-radius: 1px;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.09);
 }
 
