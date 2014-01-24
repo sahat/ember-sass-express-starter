@@ -34,6 +34,10 @@ $state-danger-text: #a81515;
 $state-danger-bg: #fdf2f2;
 $state-danger-border: #f29797;
 
+// Forms
+$input-border-radius: 0;
+$input-border-focus: #2598f9;
+
 @import "lib/bootstrap/bootstrap";
 @import "lib/font-awesome/font-awesome";
 @import "lib/bootstrap-social/bootstrap-social";
@@ -45,6 +49,10 @@ body {
 
 .alert {
   border-radius: 1px;
+}
+
+.form-control:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
 }
 
 .navbar-brand {
