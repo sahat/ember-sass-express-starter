@@ -14,24 +14,9 @@ $navbar-inverse-link-color: rgba(255, 255, 255, 0.5);
 
 
 $btn-font-weight: 600;
-
 $btn-default-bg: #e6e7e7;
 $btn-default-border: #e6e7e7;
 
-$btn-primary-bg: $brand-primary;
-$btn-primary-border: darken($btn-primary-bg, 5%) !default;
-
-$btn-success-bg: $brand-success;
-$btn-success-border: darken($btn-success-bg, 5%) !default;
-
-$btn-warning-bg: $brand-warning;
-$btn-warning-border: darken($btn-warning-bg, 5%) !default;
-
-$btn-danger-bg: $brand-danger;
-$btn-danger-border: darken($btn-danger-bg, 5%) !default;
-
-$btn-info-bg: $brand-info;
-$btn-info-border: darken($btn-info-bg, 5%) !default;
 
 @import "lib/bootstrap/bootstrap";
 @import "lib/font-awesome/font-awesome";
@@ -52,9 +37,17 @@ body {
 }
 
 .btn {
-  padding: 7px 15px;
+  padding: 8px 16px;
   border-width: 0;
   border-radius: 0;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.09);
 }
 
+.btn-social {
+  padding-left: 44px !important;
+}
+
+[class^="fa-"],
+[class*="fa-"] {
+  margin-right: 5px;
+}
