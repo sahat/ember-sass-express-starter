@@ -1,5 +1,12 @@
+$font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
 $navbar-height: 40px;
-$navbar-inverse-bg: rgba(0,0,0,0.8);
+$navbar-inverse-color: rgba(255, 255, 255, 0.5);
+$navbar-inverse-bg: #313338;
+$navbar-inverse-border: darken($navbar-inverse-bg, 10%);
+$navbar-inverse-link-color: rgba(255, 255, 255, 0.5);
+
+
 
 @import "lib/bootstrap/bootstrap";
 @import "lib/font-awesome/font-awesome";
@@ -9,3 +16,13 @@ body {
   padding-top: 40px;
   padding-bottom: 20px;
 }
+
+.navbar-brand {
+  background-image: url(http://www.joyent.com/content/07-blog/722-joyent-to-sponsor-and-present-at-mongosv-2012/mongodb-leaf.png);
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position: left center;
+  padding-left: 40px;
+  margin-left: 15px;
+}
+
