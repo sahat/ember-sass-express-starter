@@ -46,15 +46,22 @@ To recap: Make sure MognoDB is running. Run `node app.js`. Then in a separate te
 For generating models, views, controllers, templates, routes please refer to ember-tools [github page](https://github.com/rpflorence/ember-tools).
 
 ## TODO
-- ~~Authentication (Local)~~ + Facebook
+- ~~Authentication (Local)~~
+- Improve security of token-based authentication
+- Facebook Oauth2 via ember-simple-auth
 - ~~Express Middleware~~
-- Offline.js
-- Notification when server is shut down
+- Offline.js plugin for notifying user when they are offline
+- Notification when server is taking too long to respond
+- Youtube-like AJAX loading animation
 - ~~Bootstrap navbar~~
 - QUnit Ember tests
 - Display an alert message on login/singup request timeout
-- Bootstrap Footer
-
+- Bootstrap Sticky Footer
+- Ember-validations for client validations
+- Express-validator for server validations
+- User OR email sign in (passport-local config)
+- Passport-local vs token-based approach with no sessions
+- Change `people` model to posts to avoid confusion with `user` model
 
 ## Tests
 There are currently no actual Ember tests, but I plan to add QUnit tests in the future. Why QUnit and not Mocha or Jasmine? QUnit is the default testing framework in Ember, and I have no preference for any testing framework, so I chose to stick with the defaults. But of course feel free to swap it for something else.
