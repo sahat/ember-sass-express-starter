@@ -1,6 +1,6 @@
 {
   "name": "ember-sass-express-starter",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Boilerplate for Ember, Sass, Express, MongoDB",
   "keywords": [
     "scaffold",
