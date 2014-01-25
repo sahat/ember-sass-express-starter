@@ -39,9 +39,36 @@ $input-border-focus: #2598f9;
 @import "lib/font-awesome/font-awesome";
 @import "lib/bootstrap-social/bootstrap-social";
 
+html, body {
+  height: 100%;
+}
+
+// Needed to make sticky footer work with Ember
+.ember-view {
+  height: 100%;
+}
+
 body {
   padding-top: 40px;
-  padding-bottom: 20px;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -120px;
+  /* Pad bottom by footer height */
+  // I am using 140px instead of 120px to give some room between #wrap and #footer
+  // Otherwise footer will be almost touching your page content
+  padding: 0 0 140px;
+}
+
+#footer {
+  height: 120px;
+  padding-top: 20px;
+  background-color: $navbar-default-bg;
+  border-top: 1px solid $navbar-default-border;
 }
 
 .alert {

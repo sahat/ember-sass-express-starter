@@ -56,7 +56,7 @@ For generating models, views, controllers, templates, routes please refer to emb
 - ~~Bootstrap navbar~~
 - QUnit Ember tests
 - Display an alert message on login/singup request timeout
-- Bootstrap Sticky Footer
+- ~~Bootstrap Sticky Footer~~
 - Ember-validations for client validations
 - Express-validator for server validations
 - User OR email sign in (passport-local config)

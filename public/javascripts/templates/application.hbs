@@ -1,34 +1,48 @@
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Project Name</a>
-    </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li>{{#link-to "index"}}Home{{/link-to}}</li>
-        <li>{{#link-to "people"}}People{{/link-to}}</li>
-        <li>
-          {{#if session.isAuthenticated}}
-            {{#link-to "protected"}}Protected{{/link-to}}
-          {{/if}}
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        {{#if session.isAuthenticated}}
-          <li><a href="#" {{action "logout"}}>Logout</a></li>
-        {{else}}
-          <li>{{#link-to "login"}}Sign In{{/link-to}}</li>
-          <li>{{#link-to "signup"}}Create Account{{/link-to}}</li>
-        {{/if}}
-      </ul>
+<div id="wrap">
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Project Name</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li>{{#link-to "index"}}Home{{/link-to}}</li>
+          <li>{{#link-to "people"}}People{{/link-to}}</li>
+          <li>
+              {{#if session.isAuthenticated}}
+                  {{#link-to "protected"}}Protected{{/link-to}}
+              {{/if}}
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            {{#if session.isAuthenticated}}
+              <li><a href="#" {{action "logout"}}>Logout</a></li>
+            {{else}}
+              <li>{{#link-to "login"}}Sign In{{/link-to}}</li>
+              <li>{{#link-to "signup"}}Create Account{{/link-to}}</li>
+            {{/if}}
+        </ul>
+      </div>
     </div>
   </div>
+
+  {{outlet}}
+
 </div>
 
-{{outlet}}
+<div id="footer">
+  <div class="container text-center">
+    <div>© 2014 Company, Inc.</div>
+    <div><strong>Ember Sass Express Starter</strong> Project.
+      Created by<a href="http://sahatyalkabov.com"> Sahat Yalkabov</a>
+    </div>
+    <div>Code licensed under<a href="http://opensource.org/licenses/mit-license.html"> MIT License</a></div>
+    <div><a href="https://github.com/sahat/ember-sass-express-starter">GitHub Project</a> ·<a href="https://github.com/sahat/ember-sass-express-starter/issues"> Issues</a></div>
+  </div>
+</div>
