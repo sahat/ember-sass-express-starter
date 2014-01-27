@@ -12,13 +12,10 @@ var bcrypt = require('bcrypt');
 var Sequelize = require('sequelize');
 
 /**
- * Sequelize configuration
+ * Sequelize configuration.
  */
 
-var sequelize = new Sequelize('test', null, null, {
-  dialect: 'sqlite'
-});
-
+var sequelize = new Sequelize('test', 'root', 'pass');
 
 /**
  * Person Schema.
@@ -41,38 +38,52 @@ var User = sequelize.define('User', {
 });
 
 /**
+ * Synchronizing the schema.
+ */
+
+sequelize
+  .sync()
+  .complete(function(err) {
+    if (err) {
+      console.log('✗ Error occurred while creating the table:', err)
+    } else {
+      console.log('✓ Sequelize Sync Complete')
+    }
+  });
+
+/**
  * User Schema pre-save hooks.
  * It is used for hashing and salting user's password and token.
  */
 
-userSchema.pre('save', function(next) {
-  var user = this;
-
-  var hashContent = user.username + user.password + Date.now() + Math.random();
-  user.token = crypto.createHash('sha1').update(hashContent).digest('hex');
-
-  if (!user.isModified('password')) return next();
-  bcrypt.genSalt(5, function(err, salt) {
-    if (err) return next(err);
-    bcrypt.hash(user.password, salt, function(err, hash) {
-      if (err) return next(err);
-      user.password = hash;
-      next();
-    });
-  });
-});
-
-/**
- * Helper method for comparing user's password input with a
- * hashed and salted password stored in the database.
- */
-
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-    if(err) return cb(err);
-    cb(null, isMatch);
-  });
-};
+//userSchema.pre('save', function(next) {
+//  var user = this;
+//
+//  var hashContent = user.username + user.password + Date.now() + Math.random();
+//  user.token = crypto.createHash('sha1').update(hashContent).digest('hex');
+//
+//  if (!user.isModified('password')) return next();
+//  bcrypt.genSalt(5, function(err, salt) {
+//    if (err) return next(err);
+//    bcrypt.hash(user.password, salt, function(err, hash) {
+//      if (err) return next(err);
+//      user.password = hash;
+//      next();
+//    });
+//  });
+//});
+//
+///**
+// * Helper method for comparing user's password input with a
+// * hashed and salted password stored in the database.
+// */
+//
+//userSchema.methods.comparePassword = function(candidatePassword, cb) {
+//  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+//    if(err) return cb(err);
+//    cb(null, isMatch);
+//  });
+//};
 
 
 /**
@@ -84,7 +95,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function (err, user) {
+  User.findById(id, function(err, user) {
     done(err, user);
   });
 });
@@ -113,7 +124,7 @@ app.use(express.session());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
-app.use(function(err, req, res, next){
+app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.send(500, { message: 'Internal Server Error'});
 });
@@ -129,32 +140,24 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 
 app.get('/api/people/:id', function(req, res, next) {
-  Person.findById(req.params.id, function(err, person) {
-    if (err) return next(err);
-    res.send({ person: person });
-  });
+  Person
+    .find(req.params.id)
+    .complete(function(err, person) {
+      res.send(person.values);
+    });
 });
 
 /**
  * Find all people.
  *
- * @returns {object} person
+ * @returns {array} people
  */
 
 app.get('/api/people', function(req, res, next) {
   Person
-    .sync()
-    .on('success', function() {
-      Person.findAll()
-        .success(function(people) {
-          res.send({ person: people });
-        });
-        .error(function(err) {
-          next(err);
-        });
-    })
-    .on('error', function(err) {
-      res.send(500, err);
+    .findAll()
+    .complete(function(err, people) {
+      res.send({ people: people || [] });
     });
 });
 
@@ -166,10 +169,15 @@ app.get('/api/people', function(req, res, next) {
  */
 
 app.put('/api/people/:id', function(req, res, next) {
-  Person.findByIdAndUpdate(req.params.id, req.body.person, function(err, person) {
-    if (err) return next(err);
-    res.send({ person: person });
-  });
+  Person
+    .find(req.params.id)
+    .complete(function(err, person) {
+      person
+        .updateAttributes(req.body.person)
+        .complete(function(err, person) {
+          res.send(person.values);
+        });
+    });
 });
 
 /**
@@ -180,19 +188,13 @@ app.put('/api/people/:id', function(req, res, next) {
  */
 
 app.post('/api/people', function(req, res, next) {
+  console.log(req.body.person)
   Person
-    .sync()
-    .on('success', function() {
-      Person.create(req.body.person)
-        .success(function(person) {
-          res.send({ person: person });
-        })
-        .error(function(err) {
-          next(err);
-        });
-    })
-    .on('error', function(err) {
-      next(err);
+    .create(req.body.person)
+    .complete(function(err, person) {
+      console.log(err);
+      console.log(person);
+      res.send({ person: person });
     });
 });
 
@@ -235,6 +237,7 @@ app.post('/token', function(req, res, next) {
  */
 
 app.post('/signup', function(req, res, next) {
+  // TODO: Node-validator or express-validations
   if (!req.body.username) {
     return res.send(400, 'Username cannot be blank.');
   }
@@ -251,16 +254,25 @@ app.post('/signup', function(req, res, next) {
     return res.send(400, 'Passwords do not match.');
   }
 
-  var user = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password
-  });
-
-  user.save(function(err) {
-    if (err) return res.send(500, err.message);
-    res.send(200);
-  });
+  User
+    .sync()
+    .on('success', function() {
+      User.create({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+      })
+        .success(function(person) {
+          // TODO: send user
+          res.send(200);
+        })
+        .error(function(err) {
+          next(err);
+        });
+    })
+    .on('error', function(err) {
+      next(err);
+    });
 });
 
 app.listen(app.get('port'), function() {
