@@ -206,10 +206,15 @@ app.post('/api/people', function(req, res, next) {
  */
 
 app.del('/api/people/:id', function(req, res, next) {
-  Person.findById(req.params.id).remove(function(err) {
-    if (err) return next(err);
-    res.send(200);
-  });
+  Person
+    .find(req.params.id)
+    .complete(function(err, person) {
+      person
+        .destroy()
+        .complete(function(err) {
+          res.send(200);
+        });
+    });
 });
 
 /**
