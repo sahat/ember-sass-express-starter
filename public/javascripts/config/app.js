@@ -5,7 +5,9 @@ Ember.Application.initializer({
   }
 });
 
-var App = Ember.Application.create();
+var App = Ember.Application.create({
+  LOG_TRANSITIONS: true
+});
 
 App.ApplicationSerializer = DS.RESTSerializer.extend({
   primaryKey: '_id'
