@@ -35,13 +35,13 @@ Extract and navigate to the directory in terminal. Then to install all the depen
 ```
 npm install
 ```
-To start a web server, run `node app.js`. **Note**: MongoDB must be running or else the server won't start. Then visit `http://localhost:3000`. There are no server-side views, thus you will not see `res.render` anywhere in the code. The `index.html` is loaded implicitly from the `/public` folder. And `index.html` in turn loads the entire Ember application.
+To start a web server, run `npm start`. **Note**: MongoDB must be running or else the server won't start. Then visit `http://localhost:3000`. There are no server-side views, thus you will not see `res.render` anywhere in the code. The `index.html` is loaded implicitly from the `/public` folder. And `index.html` in turn loads the entire Ember application.
 
 Updating *.scss stylesheets will automatically result in generating a proper css file, as long as the Express server is running. This ability is provided by the `node-sass` library.
 
 For Ember source files you will use **ember-tools** to build and watch for file changes. Simply run `ember build` in the project root directory to compile all javascript files into `application.js`. If you want ember-tools to automatically run build command when files change, run `ember build -w`. Simple as that.
 
-To recap: Make sure MognoDB is running. Run `node app.js`. Then in a separate terminal tab run `ember build -w`. And you are all set.
+To recap: Make sure MognoDB is running. Run `npm start`. Then in a separate terminal tab run `ember build -w`. And you are all set.
 
 For generating models, views, controllers, templates, routes please refer to ember-tools [github page](https://github.com/rpflorence/ember-tools).
 

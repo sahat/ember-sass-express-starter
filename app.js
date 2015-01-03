@@ -3,8 +3,14 @@
  */
 
 var express = require('express');
-var mongoose = require('mongoose');
 var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var session = require('express-session');
+var methodOverride = require('method-override')
 var sass = require('node-sass');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -116,24 +122,21 @@ passport.use(new LocalStrategy(function(username, password, done) {
 }));
 
 var app = express();
-
-app.set('port', process.env.PORT || 3000);
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
+app.use(favicon(__dirname + '/public/favicon.png'));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride());
+app.use(cookieParser());
+app.use(session({
+    secret: 'place secret here',
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(app.router);
-app.use(function(err, req, res, next){
-  console.error(err.stack);
-  res.send(500, { message: 'Internal Server Error'});
-});
 app.use(sass.middleware({ src: path.join(__dirname, 'public') }));
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 /**
  * Find person by id.
@@ -198,7 +201,7 @@ app.post('/api/people', function(req, res, next) {
  * @returns 200 OK
  */
 
-app.del('/api/people/:id', function(req, res, next) {
+app.delete('/api/people/:id', function(req, res, next) {
   Person.findById(req.params.id).remove(function(err) {
     if (err) return next(err);
     res.send(200);
@@ -258,6 +261,29 @@ app.post('/signup', function(req, res, next) {
   });
 });
 
-app.listen(app.get('port'), function() {
-  console.log('Express server running on port ' + app.get('port'));
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.send(err);
+    });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.send(err.message);
+});
+
+module.exports = app;
